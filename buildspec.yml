@@ -20,8 +20,12 @@ phases:
       - echo "dotnet info"
       - dotnet --info
       - git status
-      - ./build.sh $BUILD_CONFIG_TYPE $TAG_NAME
-      - echo "build ingestion"
+      - echo "update version from trigger tag for file suffix"
+      - ./update-version.sh $TIQ_GIT_TOKEN
+      - echo "source env vars for build"
+      - cat build-artifacts.sh
+      - . build-artifacts.sh
+      - echo "start project build"
       - ./build.sh $BUILD_CONFIG_TYPE $TAG_NAME
       - echo "upload release"
       - ./upload-release.sh $TIQ_GIT_TOKEN
